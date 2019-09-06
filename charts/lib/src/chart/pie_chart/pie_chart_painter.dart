@@ -10,6 +10,7 @@ import 'pie_chart_data.dart';
 
 /// this class will paint the [PieChart] based on the [PieChartData]
 class PieChartPainter extends BaseChartPainter {
+  final int selectedWidth = 20;
   final PieChartData data;
   final Animation<double> animation;
 
@@ -89,7 +90,7 @@ class PieChartPainter extends BaseChartPainter {
 
       final rect = Rect.fromCircle(
         center: center,
-        radius: data.centerSpaceRadius + (section.radius / 2),
+        radius: data.centerSpaceRadius + ((section.radius / 2) * animation.value),
       );
 
       sectionPaint.color = section.color;

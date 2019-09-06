@@ -9,33 +9,8 @@ class PieChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xffeceaeb),
-      child: Padding(
-        padding: const EdgeInsets.all(28.0),
-        child: ListView(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  "Pie Chart",
-                  style: TextStyle(
-                      color: Color(
-                        0xff333333,
-                      ),
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            PieChartSample()
-          ],
-        ),
-      ),
+      color: Color(0xff20386c),
+      child: PieChartSample()
     );
   }
 }

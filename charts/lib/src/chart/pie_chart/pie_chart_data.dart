@@ -46,6 +46,7 @@ class PieChartSectionData {
   /// then the sum is 100 and each section takes 1/4 of whole circle (360/4) degree.
   final double value;
   final Color color;
+  final bool selected;
 
   /// the [radius] is the width radius of each section
   final double radius;
@@ -71,6 +72,7 @@ class PieChartSectionData {
         color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
     this.title = '1',
     this.titlePositionPercentageOffset = 0.5,
+    this.selected = false
   });
 
   PieChartSectionData copyWith({
@@ -81,6 +83,7 @@ class PieChartSectionData {
     TextStyle titleStyle,
     String title,
     double titlePositionPercentageOffset,
+    bool selected,
   }) {
     return PieChartSectionData(
       value: value ?? this.value,
@@ -91,6 +94,7 @@ class PieChartSectionData {
       title: title ?? this.title,
       titlePositionPercentageOffset:
           titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
+      selected: selected ?? this.selected
     );
   }
 }

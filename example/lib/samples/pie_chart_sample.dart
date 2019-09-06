@@ -3,15 +3,12 @@ import 'dart:async';
 import 'package:charts/charts.dart';
 import 'package:flutter/material.dart';
 
-import 'indicator.dart';
-
 class PieChartSample extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => PieChartSampleState();
+  State<StatefulWidget> createState() => PieChart2State();
 }
 
-class PieChartSampleState extends State<PieChartSample>
-    with SingleTickerProviderStateMixin {
+class PieChart2State extends State with SingleTickerProviderStateMixin {
   List<PieChartSectionData> pieChartRawSections;
   List<PieChartSectionData> showingSections;
 
@@ -25,62 +22,13 @@ class PieChartSampleState extends State<PieChartSample>
   void initState() {
     super.initState();
 
-    final section1 = PieChartSectionData(
-      color: Color(0xff0293ee).withOpacity(0.8),
-      value: 25,
-      title: "",
-      radius: 80,
-      titleStyle: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff044d7c)),
-      titlePositionPercentageOffset: 0.55,
-    );
-
-    final section2 = PieChartSectionData(
-      color: Color(0xfff8b250).withOpacity(0.8),
-      value: 25,
-      title: "",
-      radius: 65,
-      titleStyle: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff90672d)),
-      titlePositionPercentageOffset: 0.55,
-    );
-
-    final section3 = PieChartSectionData(
-      color: Color(0xff845bef).withOpacity(0.8),
-      value: 25,
-      title: "",
-      radius: 60,
-      titleStyle: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff4c3788)),
-      titlePositionPercentageOffset: 0.6,
-    );
-
-    final section4 = PieChartSectionData(
-      color: Color(0xff13d38e).withOpacity(0.8),
-      value: 25,
-      title: "",
-      radius: 70,
-      titleStyle: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff0c7f55)),
-      titlePositionPercentageOffset: 0.55,
-    );
-
-    final items = [
-      section1,
-      section2,
-      section3,
-      section4,
-    ];
-
-    pieChartRawSections = items;
+    pieChartRawSections = getItems();
 
     showingSections = pieChartRawSections;
 
     pieTouchedResultStreamController = StreamController();
     pieTouchedResultStreamController.stream.distinct().listen((details) {
-      if (details == null) {
-        return;
-      }
+      if (details == null) return;
 
       touchedIndex = -1;
       if (details.sectionData != null) {
@@ -95,76 +43,83 @@ class PieChartSampleState extends State<PieChartSample>
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.3,
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 28,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Indicator(
-                  color: Color(0xff0293ee),
-                  text: "One",
-                  isSquare: false,
-                  size: touchedIndex == 0 ? 18 : 16,
-                  textColor: touchedIndex == 0 ? Colors.black : Colors.grey,
-                ),
-                Indicator(
-                  color: Color(0xfff8b250),
-                  text: "Two",
-                  isSquare: false,
-                  size: touchedIndex == 1 ? 18 : 16,
-                  textColor: touchedIndex == 1 ? Colors.black : Colors.grey,
-                ),
-                Indicator(
-                  color: Color(0xff845bef),
-                  text: "Three",
-                  isSquare: false,
-                  size: touchedIndex == 2 ? 18 : 16,
-                  textColor: touchedIndex == 2 ? Colors.black : Colors.grey,
-                ),
-                Indicator(
-                  color: Color(0xff13d38e),
-                  text: "Four",
-                  isSquare: false,
-                  size: touchedIndex == 3 ? 18 : 16,
-                  textColor: touchedIndex == 3 ? Colors.black : Colors.grey,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 18,
-            ),
-            Expanded(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: Chart(
-                  chart: PieChart(
-                      PieChartData(
-                          pieTouchData: PieTouchData(
+      aspectRatio: 1,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Chart(
+                chart: PieChart(
+                    PieChartData(
+                        pieTouchData: PieTouchData(
                             touchResponseStreamSink:
-                                pieTouchedResultStreamController.sink,
-                          ),
-                          startDegreeOffset: 180,
-                          borderData: BorderData(
-                            show: false,
-                          ),
-                          sectionsSpace: 12,
-                          centerSpaceRadius: 0,
-                          sections: showingSections),
-                      controller.view),
-                ),
+                                pieTouchedResultStreamController.sink),
+                        borderData: BorderData(
+                          show: false,
+                        ),
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 110,
+                        sections: showingSections),
+                    controller.view),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  List<PieChartSectionData> getItems() {
+    var radius = 40.0;
+    var titleStyle = TextStyle(
+        fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFFFFFFFF));
+
+    var showTitle = false;
+
+    final section1 = PieChartSectionData(
+      color: Color(0xff0293ee),
+      value: 40,
+      title: "40%",
+      radius: radius,
+      showTitle: showTitle,
+      titleStyle: titleStyle,
+    );
+
+    final section2 = PieChartSectionData(
+      color: Color(0xfff8b250),
+      value: 30,
+      title: "30%",
+      radius: radius,
+      titleStyle: titleStyle,
+      showTitle: showTitle,
+    );
+
+    final section3 = PieChartSectionData(
+      color: Color(0xff845bef),
+      value: 15,
+      title: "15%",
+      radius: radius,
+      titleStyle: titleStyle,
+      showTitle: showTitle,
+    );
+
+    final section4 = PieChartSectionData(
+      color: Color(0xff13d38e),
+      value: 15,
+      title: "15%",
+      radius: radius,
+      titleStyle: titleStyle,
+      showTitle: showTitle,
+    );
+
+    final items = [
+      section1,
+      section2,
+      section3,
+      section4,
+    ];
+    return items;
   }
 
   @override

@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        children: <Widget>[LineChartPage(), BarChartPage(), PieChartPage()],
+        children: <Widget>[PieChartPage(), LineChartPage(), BarChartPage()],
       ),
     );
   }
