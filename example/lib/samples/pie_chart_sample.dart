@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:charts/charts.dart';
+import 'package:charts/src/touch_input/touch_input.dart';
 import 'package:flutter/material.dart';
 
 class PieChartSample extends StatefulWidget {
@@ -15,6 +16,7 @@ class PieChart2State extends State with SingleTickerProviderStateMixin {
   StreamController<PieTouchResponse> pieTouchedResultStreamController;
 
   AnimationController controller;
+  Animation<double> animation;
 
   int touchedIndex;
 
@@ -30,14 +32,41 @@ class PieChart2State extends State with SingleTickerProviderStateMixin {
     pieTouchedResultStreamController.stream.distinct().listen((details) {
       if (details == null) return;
 
-      touchedIndex = -1;
-      if (details.sectionData != null) {
-        touchedIndex = showingSections.indexOf(details.sectionData);
-      }
+      if (details.touchInput is PanStart) {
+        touchedIndex = -1;
+        if (details.sectionData != null) {
+          touchedIndex = showingSections.indexOf(details.sectionData);
+        }
 
-      setState(() {});
+        showingSections = List.of(pieChartRawSections);
+        if (touchedIndex != -1) {
+          showingSections[touchedIndex] =
+              showingSections[touchedIndex].copyWith(selected: true);
+        }
+
+        updateState();
+      }
     });
-    controller = new AnimationController(vsync: this);
+
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
+
+    animation = _createAnimation();
+  }
+
+  void updateState() {
+    setState(() {
+      controller.reset();
+      animation = _createAnimation();
+      controller.forward();
+    });
+  }
+
+  Animation<double> _createAnimation() {
+    return Tween<double>(begin: 0.7, end: 1.4).animate(controller)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -55,13 +84,11 @@ class PieChart2State extends State with SingleTickerProviderStateMixin {
                         pieTouchData: PieTouchData(
                             touchResponseStreamSink:
                                 pieTouchedResultStreamController.sink),
-                        borderData: BorderData(
-                          show: false,
-                        ),
+                        borderData: BorderData(show: false),
                         sectionsSpace: 0,
                         centerSpaceRadius: 110,
                         sections: showingSections),
-                    controller.view),
+                    animation),
               ),
             ),
           ),

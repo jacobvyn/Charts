@@ -88,13 +88,17 @@ class PieChartPainter extends BaseChartPainter {
       final section = data.sections[i];
       final sectionDegree = sectionsAngle[i];
 
+      var radius = section.selected
+          ? section.radius * animation.value
+          : section.radius;
+
       final rect = Rect.fromCircle(
         center: center,
-        radius: data.centerSpaceRadius + ((section.radius / 2) * animation.value),
+        radius: data.centerSpaceRadius + radius / 2,
       );
 
       sectionPaint.color = section.color;
-      sectionPaint.strokeWidth = section.radius;
+      sectionPaint.strokeWidth = radius;
 
       double startAngle = tempAngle;
       double sweepAngle = sectionDegree;
@@ -124,7 +128,7 @@ class PieChartPainter extends BaseChartPainter {
       var previousSection = data.sections[previousIndex];
 
       double maxSectionRadius =
-          math.max(section.radius, previousSection.radius);
+      math.max(section.radius, previousSection.radius);
 
       double startAngle = tempAngle;
       double sweepAngle = 360 * (section.value / data.sumValue);
@@ -173,7 +177,7 @@ class PieChartPainter extends BaseChartPainter {
 
       if (section.showTitle) {
         TextSpan span =
-            TextSpan(style: section.titleStyle, text: section.title);
+        TextSpan(style: section.titleStyle, text: section.title);
         TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
@@ -188,8 +192,8 @@ class PieChartPainter extends BaseChartPainter {
   }
 
   /// find touched section by the value of [touchInputNotifier]
-  PieTouchResponse _getTouchedDetails(
-      Canvas canvas, Size viewSize, List<double> sectionsAngle) {
+  PieTouchResponse _getTouchedDetails(Canvas canvas, Size viewSize,
+      List<double> sectionsAngle) {
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     if (touchInputNotifier == null || touchInputNotifier.value == null) {
