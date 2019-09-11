@@ -11,6 +11,7 @@ class PieChartData extends BaseChartData {
   final double centerSpaceRadius;
   final Color centerSpaceColor;
   final PieTouchData pieTouchData;
+  final double endAnimationValue;
 
   /// space between sections together
   final double sectionsSpace;
@@ -31,6 +32,7 @@ class PieChartData extends BaseChartData {
     this.startDegreeOffset = 0,
     this.pieTouchData = const PieTouchData(),
     BorderData borderData,
+    this.endAnimationValue = 1.4
   }) : super(borderData: borderData, touchData: pieTouchData) {
     sumValue = sections
         .map((data) => data.value)

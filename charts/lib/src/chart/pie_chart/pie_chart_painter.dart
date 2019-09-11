@@ -77,6 +77,9 @@ class PieChartPainter extends BaseChartPainter {
         Offset(centerX, centerY), data.centerSpaceRadius, centerSpacePaint);
   }
 
+  static var animStartAnglePadding = 5;
+  static var animEndAnglePadding = 10;
+
   void drawSections(Canvas canvas, Size viewSize, List<double> sectionsAngle) {
     canvas.saveLayer(
         Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
@@ -101,16 +104,24 @@ class PieChartPainter extends BaseChartPainter {
       sectionPaint.strokeWidth = radius;
 
       double startAngle = tempAngle;
-      double sweepAngle = sectionDegree;
+      double endAngle = sectionDegree;
+
+      if(section.selected){
+        double animVal = animation.value / data.endAnimationValue;
+
+        startAngle = tempAngle + animStartAnglePadding / animVal - animStartAnglePadding;
+        endAngle = sectionDegree - animEndAnglePadding / animVal + animEndAnglePadding;
+      }
+
       canvas.drawArc(
         rect,
         radians(startAngle),
-        radians(sweepAngle),
+        radians(endAngle),
         false,
         sectionPaint,
       );
 
-      tempAngle += sweepAngle;
+      tempAngle += sectionDegree;
     }
 
     removeSectionsSpace(canvas, viewSize);

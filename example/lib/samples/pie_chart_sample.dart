@@ -12,6 +12,7 @@ class PieChartSample extends StatefulWidget {
 class PieChart2State extends State with SingleTickerProviderStateMixin {
   List<PieChartSectionData> pieChartRawSections;
   List<PieChartSectionData> showingSections;
+  static double endAnimationValue = 1.4;
 
   StreamController<PieTouchResponse> pieTouchedResultStreamController;
 
@@ -63,7 +64,7 @@ class PieChart2State extends State with SingleTickerProviderStateMixin {
   }
 
   Animation<double> _createAnimation() {
-    return Tween<double>(begin: 0.7, end: 1.4).animate(controller)
+    return Tween<double>(begin: 0.7, end: endAnimationValue).animate(controller)
       ..addListener(() {
         setState(() {});
       });
@@ -87,7 +88,8 @@ class PieChart2State extends State with SingleTickerProviderStateMixin {
                         borderData: BorderData(show: false),
                         sectionsSpace: 0,
                         centerSpaceRadius: 110,
-                        sections: showingSections),
+                        sections: showingSections,
+                    endAnimationValue: endAnimationValue),
                     animation),
               ),
             ),
