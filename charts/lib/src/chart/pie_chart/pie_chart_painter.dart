@@ -103,7 +103,7 @@ class PieChartPainter extends BaseChartPainter {
 
       final edgeRect = Rect.fromCircle(
         center: center,
-        radius: data.centerSpaceRadius + radius / 2 +radius/2 - 5,
+        radius: data.centerSpaceRadius + radius / 2 + radius / 2 - 5,
       );
 
       sectionPaint.color = section.color;
@@ -127,15 +127,17 @@ class PieChartPainter extends BaseChartPainter {
         sectionPaint,
       );
 
-      sectionPaint.color = Colors.black;
-      sectionPaint.strokeWidth = 0.2;
-      canvas.drawArc(
-        edgeRect,
-        radians(startAngle),
-        radians(endAngle),
-        false,
-        sectionPaint,
-      );
+      // edge of pie is not finished
+//      sectionPaint.color = Colors.black;
+//      sectionPaint.strokeWidth = 0.2;
+
+//      canvas.drawArc(
+//        edgeRect,
+//        radians(startAngle),
+//        radians(endAngle),
+//        false,
+//        sectionPaint,
+//      );
 
       tempAngle += sectionDegree;
     }
@@ -155,7 +157,7 @@ class PieChartPainter extends BaseChartPainter {
       var previousSection = data.sections[previousIndex];
 
       double maxSectionRadius =
-      math.max(section.radius, previousSection.radius);
+          math.max(section.radius, previousSection.radius);
 
       double startAngle = tempAngle;
       double sweepAngle = 360 * (section.value / data.sumValue);
@@ -204,7 +206,7 @@ class PieChartPainter extends BaseChartPainter {
 
       if (section.showTitle) {
         TextSpan span =
-        TextSpan(style: section.titleStyle, text: section.title);
+            TextSpan(style: section.titleStyle, text: section.title);
         TextPainter tp = TextPainter(
             text: span,
             textAlign: TextAlign.center,
@@ -219,8 +221,8 @@ class PieChartPainter extends BaseChartPainter {
   }
 
   /// find touched section by the value of [touchInputNotifier]
-  PieTouchResponse _getTouchedDetails(Canvas canvas, Size viewSize,
-      List<double> sectionsAngle) {
+  PieTouchResponse _getTouchedDetails(
+      Canvas canvas, Size viewSize, List<double> sectionsAngle) {
     final center = Offset(viewSize.width / 2, viewSize.height / 2);
 
     if (touchInputNotifier == null || touchInputNotifier.value == null) {
