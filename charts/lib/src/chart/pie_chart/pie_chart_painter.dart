@@ -100,6 +100,12 @@ class PieChartPainter extends BaseChartPainter {
         radius: data.centerSpaceRadius + radius / 2,
       );
 
+
+      final edgeRect = Rect.fromCircle(
+        center: center,
+        radius: data.centerSpaceRadius + radius / 2 +radius/2 - 5,
+      );
+
       sectionPaint.color = section.color;
       sectionPaint.strokeWidth = radius;
 
@@ -115,6 +121,16 @@ class PieChartPainter extends BaseChartPainter {
 
       canvas.drawArc(
         rect,
+        radians(startAngle),
+        radians(endAngle),
+        false,
+        sectionPaint,
+      );
+
+      sectionPaint.color = Colors.black;
+      sectionPaint.strokeWidth = 0.2;
+      canvas.drawArc(
+        edgeRect,
         radians(startAngle),
         radians(endAngle),
         false,
